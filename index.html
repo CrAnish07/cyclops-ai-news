@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4f3ee" />
+    <meta name="description" content="Cyclops News: the sharpest signal in AI, software, and the technology shaping tomorrow." />
+    <title>Cyclops News — Tech, in focus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="topline"><span class="live-dot"></span><span id="live-label">LIVE DESK</span><span class="topline-divider"></span><span>TECH, IN FOCUS</span><span class="topline-date" id="today"></span></div>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Cyclops News home"><span class="brand-eye"><i></i></span><span class="brand-name">CYCLOPS<span>NEWS</span></span></a>
+      <nav class="main-nav" aria-label="Main navigation"><a class="nav-current" href="#latest">The feed</a><a href="#briefing">Our brief</a><a href="#about">About</a></nav>
+      <button class="search-toggle" id="search-toggle" aria-label="Search stories"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg><span>Search</span><kbd>/</kbd></button>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span><span></span></button>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy"><p class="eyebrow"><span class="eyebrow-mark">✳</span> The technology signal</p><h1 id="hero-title">Big ideas.<br /><em>Zero noise.</em></h1><p class="hero-deck">The stories moving technology forward, picked by AI and sharpened for curious minds.</p><a class="hero-link" href="#latest">Explore the latest <span>↘</span></a></div>
+        <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="eye-core"><span></span></div><span class="art-caption">SIGNAL / 001</span><span class="art-coordinate">37°46′49″N<br />122°25′09″W</span></div>
+        <div class="hero-foot"><span>INDEPENDENT BY DESIGN</span><span>BUILT FOR THE CURIOUS</span><span class="hero-foot-right">SCROLL TO DISCOVER ↓</span></div>
+      </section>
+
+      <section class="ticker" aria-label="Topics"><span class="ticker-label">ON OUR RADAR</span><div class="ticker-track"><span>ARTIFICIAL INTELLIGENCE <b>✳</b></span><span>DEVELOPER TOOLS <b>✳</b></span><span>CYBERSECURITY <b>✳</b></span><span>HARDWARE &amp; GPUs <b>✳</b></span><span>ROBOTICS <b>✳</b></span></div></section>
+
+      <section class="latest section-wrap" id="latest">
+        <div class="section-heading"><div><p class="eyebrow"><span class="eyebrow-mark">01 /</span> The newsroom</p><h2>Worth your <em>attention.</em></h2></div><div class="heading-side"><span class="story-count" id="story-count">UPDATING…</span><button class="sort-button" id="sort-button">LATEST <span>↕</span></button></div></div>
+        <div class="feed-tools"><div class="category-list" id="category-list" aria-label="Filter stories"><button class="filter-chip active" data-category="All">All stories <span id="all-count">00</span></button><button class="filter-chip" data-category="AI">AI</button><button class="filter-chip" data-category="Development">Development</button><button class="filter-chip" data-category="Security">Security</button><button class="filter-chip" data-category="Hardware">Hardware</button><button class="filter-chip" data-category="Science">Science</button></div><label class="inline-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg><input id="feed-search" type="search" placeholder="Find a story" aria-label="Find a story" /></label></div>
+        <div class="story-layout"><div class="featured-column" id="featured-column"></div><div class="story-column" id="story-column"></div></div>
+        <div class="empty-state" id="empty-state" hidden><span class="empty-icon">✳</span><h3>No stories in this orbit.</h3><p>Try another topic or search. The feed checks for new stories every few seconds.</p><button id="clear-filters">Reset filters ↗</button></div>
+        <div class="feed-footer"><span id="feed-status"><i class="live-dot"></i> CONNECTING TO THE NEWSROOM</span><button id="refresh-button">CHECK FOR UPDATES <span>↻</span></button></div>
+      </section>
+
+      <section class="briefing" id="briefing"><div class="briefing-orbit" aria-hidden="true"><span></span><i></i></div><div class="briefing-copy"><p class="eyebrow"><span class="eyebrow-mark">02 /</span> The Cyclops brief</p><h2>A little more<br /><em>perspective.</em></h2><p>We scan the fast-moving world of technology so you can spend less time scrolling and more time thinking.</p><a href="#about">How we work <span>↗</span></a></div><div class="briefing-note"><span class="note-mark">“</span><p>Technology moves fast.<br />Understanding it should feel clear.</p><span class="note-sign">THE EDITORIAL PROMISE</span></div></section>
+
+      <section class="about-section" id="about"><div class="about-left"><p class="eyebrow"><span class="eyebrow-mark">03 /</span> One sharp eye</p><h2>Signal over<br /><em>scrolling.</em></h2></div><div class="about-right"><p>Cyclops News watches the edges of what’s next: AI, the tools developers rely on, the security that protects them, and breakthroughs that change the map.</p><p>Stories are selected for substance, rewritten for clarity, and linked back to their source. Curious, never breathless.</p><span class="about-stamp">READ<br />WIDELY.</span></div></section>
+    </main>
+
+    <footer class="site-footer"><a class="brand footer-brand" href="#top"><span class="brand-eye"><i></i></span><span class="brand-name">CYCLOPS<span>NEWS</span></span></a><span>THE WORLD, IN BETTER FOCUS.</span><a href="#top" class="back-top">BACK TO TOP ↑</a><span class="footer-copy">© <span id="year"></span> CYCLOPS NEWS</span></footer>
+    <div class="search-overlay" id="search-overlay" aria-hidden="true"><div class="search-panel"><button class="search-close" id="search-close" aria-label="Close search">×</button><p class="eyebrow">SEARCH THE NEWSROOM</p><input id="overlay-search" type="search" placeholder="Try “AI”, “security”…" /><span class="search-hint">PRESS ENTER TO EXPLORE</span></div></div>
+    <div class="article-overlay" id="article-overlay" aria-hidden="true"><button class="article-close" id="article-close" aria-label="Close article">×</button><article class="article-reader" id="article-reader"></article></div>
+    <script src="/app.js" defer></script>
+  </body>
+</html>
