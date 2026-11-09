@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css?v=cyclops-eye-20261110" />
   </head>
   <body>
     <div class="topline"><span class="live-dot"></span><span id="live-label">LIVE DESK</span><span class="topline-divider"></span><span>TECH, IN FOCUS</span><span class="topline-date" id="today"></span></div>
@@ -23,7 +23,7 @@
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy"><p class="eyebrow"><span class="eyebrow-mark">✳</span> The technology signal</p><h1 id="hero-title">Big ideas.<br /><em>Zero noise.</em></h1><p class="hero-deck">The stories moving technology forward, picked by AI and sharpened for curious minds.</p><a class="hero-link" href="#latest">Explore the latest <span>↘</span></a></div>
-        <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="eye-core"><span></span></div><span class="art-caption">SIGNAL / 001</span><span class="art-coordinate">37°46′49″N<br />122°25′09″W</span></div>
+        <div class="hero-art" aria-hidden="true"><span class="hero-eye"><span class="hero-pupil"></span></span><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="eye-core"><span></span></div><span class="art-caption">SIGNAL / 001</span><span class="art-coordinate">37°46′49″N<br />122°25′09″W</span></div>
         <div class="hero-foot"><span>INDEPENDENT BY DESIGN</span><span>BUILT FOR THE CURIOUS</span><span class="hero-foot-right">SCROLL TO DISCOVER ↓</span></div>
       </section>
 
@@ -47,5 +47,6 @@
     <div class="article-overlay" id="article-overlay" aria-hidden="true"><button class="article-close" id="article-close" aria-label="Close article">×</button><article class="article-reader" id="article-reader"></article></div>
     <script src="/supabase-config.js"></script>
     <script src="/app.js" defer></script>
+    <script src="/effects.js" type="module"></script>
   </body>
 </html>
