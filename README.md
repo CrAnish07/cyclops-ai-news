@@ -90,3 +90,32 @@ The endpoint accepts one object with these fields:
 ```
 
 The website also understands common aliases such as `contentSnippet`, `text`, `content`, `pubDate`, `isoDate`, `link`, and `categories[0]`.
+
+## Render + Supabase live feed
+
+The static Render site can read live stories from Supabase while n8n writes them to the database. This avoids rebuilding the site when a story arrives.
+
+1. In Supabase **SQL Editor**, run [`supabase-schema.sql`](./supabase-schema.sql). It creates `public.articles`, makes `source_url` unique, and permits public read access only. Row Level Security stays enabled.
+2. In Supabase **Project Settings → API Keys**, copy the project URL and the **publishable** key. Put them in [`supabase-config.js`](./supabase-config.js) as `supabaseUrl` and `supabasePublishableKey`. This file is shipped to every visitor, so use only the publishable key here—never a secret/service-role key. Commit and push; Render will redeploy the static site. The publishable key is safe to expose only with the table's read-only RLS policy in place.
+3. In n8n, add an **HTTP Request** node after `Code in JavaScript`:
+   - Method: `POST`
+   - URL: `https://<project-ref>.supabase.co/rest/v1/articles?on_conflict=source_url`
+   - Headers: `apikey: <Supabase secret key>`, `Content-Type: application/json`, and `Prefer: resolution=merge-duplicates,return=minimal`
+   - Body type: JSON; send the mapped body below. Keep the secret key in n8n credentials or another secret store, not in this repository or website.
+
+```javascript
+={{ {
+  title: $json.title,
+  summary: $json.summary,
+  article: $json.article,
+  category: $json.category,
+  published_at: $json.publishedAt,
+  source: $json.source,
+  source_url: $json.sourceUrl,
+  score: $json.score
+} }}
+```
+
+The `source_url` conflict target makes repeat RSS events update the same row. The website reads the table through Supabase's REST API and refreshes every 15 seconds. Supabase's current publishable/secret keys go in the `apikey` header; don't put the new `sb_secret_...` key in `Authorization: Bearer` because it isn't a JWT. See [Supabase API key guidance](https://supabase.com/docs/guides/getting-started/api-keys).
+
+If the site shows preview stories, verify that both values in `supabase-config.js` are filled in, the schema SQL ran successfully, and the deployed table is named `articles`. If a browser fetch fails, check the browser console and Supabase RLS/table grants.
