@@ -10,3 +10,24 @@
 .hero-art--3d>.orbit,.hero-art--3d>.eye-core,.hero-art--3d>.art-caption,.hero-art--3d>.art-coordinate{opacity:0}
 @media(max-width:760px){.hero-canvas{display:none}.hero-art--3d>.orbit,.hero-art--3d>.eye-core,.hero-art--3d>.art-caption,.hero-art--3d>.art-coordinate{opacity:1}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero-canvas{display:none}.hero-art--3d>.orbit,.hero-art--3d>.eye-core,.hero-art--3d>.art-caption,.hero-art--3d>.art-coordinate{opacity:1}}
+
+/* Keep the lead story in view while the supporting headlines scroll independently. */
+@media(min-width:1001px){
+  .story-layout{height:clamp(480px,68vh,720px);align-items:stretch}
+  .featured-column,.story-column{height:100%;min-height:0}
+  .featured-card{height:100%}
+  .feature-visual{height:auto;min-height:225px;flex:0 0 42%}
+  .featured-body{min-height:0}
+  .story-column{overflow-y:auto;overscroll-behavior:contain;padding-right:12px;scrollbar-width:thin;scrollbar-color:#b7bcb2 transparent}
+  .story-column::-webkit-scrollbar{width:7px}
+  .story-column::-webkit-scrollbar-thumb{background:#b7bcb2;border:2px solid var(--paper);border-radius:8px}
+  .story-column::-webkit-scrollbar-track{background:transparent}
+}
+
+@media(max-width:1000px){
+  .story-layout{height:auto;align-items:start}
+  .featured-column,.story-column{height:auto;max-height:none}
+  .featured-card{height:auto}
+  .feature-visual{height:225px;flex:initial}
+  .story-column{overflow:visible;overscroll-behavior:auto;padding-right:0;scrollbar-width:auto}
+}
