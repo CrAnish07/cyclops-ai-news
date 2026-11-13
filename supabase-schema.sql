@@ -19,3 +19,19 @@ create policy "Anyone can read published articles"
   for select
   to anon, authenticated
   using (true);
+
+create table if not exists public.newsletter_subscribers (
+  email text primary key check (email = lower(email) and email ~ '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$'),
+  subscribed_at timestamptz not null default now()
+);
+
+alter table public.newsletter_subscribers enable row level security;
+grant insert on public.newsletter_subscribers to anon, authenticated;
+grant select on public.newsletter_subscribers to service_role;
+
+drop policy if exists "Readers can subscribe to newsletter" on public.newsletter_subscribers;
+create policy "Readers can subscribe to newsletter"
+  on public.newsletter_subscribers
+  for insert
+  to anon, authenticated
+  with check (true);

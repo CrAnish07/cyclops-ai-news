@@ -9,13 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/styles.css?v=cyclops-feed-scroll-20261111" />
+    <link rel="stylesheet" href="/styles.css?v=cyclops-newsletter-20261114" />
   </head>
   <body>
     <div class="topline"><span class="live-dot"></span><span id="live-label">LIVE DESK</span><span class="topline-divider"></span><span>TECH, IN FOCUS</span><span class="topline-date" id="today"></span></div>
     <header class="site-header">
       <a class="brand" href="#top" aria-label="Cyclops News home"><span class="brand-eye"><i></i></span><span class="brand-name">CYCLOPS<span>NEWS</span></span></a>
-      <nav class="main-nav" aria-label="Main navigation"><a class="nav-current" href="#latest">The feed</a><a href="#briefing">Our brief</a><a href="#about">About</a></nav>
+      <nav class="main-nav" aria-label="Main navigation"><a class="nav-current" href="#latest">The feed</a><a href="#briefing">Our brief</a><a href="#about">About</a><a href="#subscribe">Subscribe</a></nav>
       <button class="search-toggle" id="search-toggle" aria-label="Search stories"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg><span>Search</span><kbd>/</kbd></button>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span><span></span></button>
     </header>
@@ -40,6 +40,8 @@
       <section class="briefing" id="briefing"><div class="briefing-orbit" aria-hidden="true"><span></span><i></i></div><div class="briefing-copy"><p class="eyebrow"><span class="eyebrow-mark">02 /</span> The Cyclops brief</p><h2>A little more<br /><em>perspective.</em></h2><p>We scan the fast-moving world of technology so you can spend less time scrolling and more time thinking.</p><a href="#about">How we work <span>↗</span></a></div><div class="briefing-note"><span class="note-mark">“</span><p>Technology moves fast.<br />Understanding it should feel clear.</p><span class="note-sign">THE EDITORIAL PROMISE</span></div></section>
 
       <section class="about-section" id="about"><div class="about-left"><p class="eyebrow"><span class="eyebrow-mark">03 /</span> One sharp eye</p><h2>Signal over<br /><em>scrolling.</em></h2></div><div class="about-right"><p>Cyclops News watches the edges of what’s next: AI, the tools developers rely on, the security that protects them, and breakthroughs that change the map.</p><p>Stories are selected for substance, rewritten for clarity, and linked back to their source. Curious, never breathless.</p><span class="about-stamp">READ<br />WIDELY.</span></div></section>
+
+      <section class="subscribe-section" id="subscribe" aria-labelledby="subscribe-title"><div class="subscribe-copy"><p class="eyebrow"><span class="eyebrow-mark">04 /</span> The signal, delivered</p><h2 id="subscribe-title">New stories.<br /><em>In your inbox.</em></h2><p>Get an email when Cyclops publishes a new story. No digests, just the latest signal.</p></div><form class="subscribe-form" id="subscribe-form"><label for="subscribe-email">YOUR EMAIL ADDRESS</label><div class="subscribe-controls"><input id="subscribe-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required maxlength="254" /><button type="submit">SUBSCRIBE <span>↗</span></button></div><label class="subscribe-trap" aria-hidden="true">Leave this field empty<input type="text" name="website" tabindex="-1" autocomplete="off" /></label><p class="subscribe-status" id="subscribe-status" aria-live="polite">One email for each new story.</p></form></section>
     </main>
 
     <footer class="site-footer"><a class="brand footer-brand" href="#top"><span class="brand-eye"><i></i></span><span class="brand-name">CYCLOPS<span>NEWS</span></span></a><span>THE WORLD, IN BETTER FOCUS.</span><a href="#top" class="back-top">BACK TO TOP ↑</a><span class="footer-copy">© <span id="year"></span> CYCLOPS NEWS</span></footer>

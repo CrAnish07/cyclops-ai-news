@@ -105,8 +105,8 @@ Render serves the frontend files; n8n writes stories to Supabase, and the browse
 
 The static Render site can read live stories from Supabase while n8n writes them to the database. This avoids rebuilding the site when a story arrives.
 
-1. In Supabase **SQL Editor**, run [`supabase-schema.sql`](./supabase-schema.sql). It creates `public.articles`, makes `source_url` unique, and permits public read access only. Row Level Security stays enabled.
-2. In Supabase **Project Settings → API Keys**, copy the project URL and the **publishable** key. Put them in [`supabase-config.js`](./supabase-config.js) as `supabaseUrl` and `supabasePublishableKey`. This file is shipped to every visitor, so use only the publishable key here—never a secret/service-role key. Commit and push; Render will redeploy the static site. The publishable key is safe to expose only with the table's read-only RLS policy in place.
+1. In Supabase **SQL Editor**, run [`supabase-schema.sql`](./supabase-schema.sql). It creates `public.articles` and `public.newsletter_subscribers`; articles are publicly readable, while visitors can only insert newsletter subscriptions. Row Level Security stays enabled.
+2. In Supabase **Project Settings → API Keys**, copy the project URL and the **publishable** key. Put them in [`supabase-config.js`](./supabase-config.js) as `supabaseUrl` and `supabasePublishableKey`. This file is shipped to every visitor, so use only the publishable key here—never a secret/service-role key. Commit and push; Render will redeploy the static site. RLS limits the browser to reading articles and inserting subscriptions.
 3. In n8n, add an **HTTP Request** node after `Code in JavaScript`:
    - Method: `POST`
    - URL: `https://<project-ref>.supabase.co/rest/v1/articles?on_conflict=source_url`
@@ -125,11 +125,24 @@ The static Render site can read live stories from Supabase while n8n writes them
 
 The `source_url` conflict target makes repeat RSS events update the same row. The website reads the table through Supabase's REST API and refreshes every 15 seconds. Supabase's current publishable/secret keys go in the `apikey` header; don't put the new `sb_secret_...` key in `Authorization: Bearer` because it isn't a JWT. See [Supabase API key guidance](https://supabase.com/docs/guides/getting-started/api-keys).
 
+## Newsletter subscriptions and new story alerts
+
+The signup form inserts email addresses into `public.newsletter_subscribers`. Run the updated [`supabase-schema.sql`](./supabase-schema.sql) in Supabase SQL Editor to create the table and its policies. The website's publishable key can insert subscriptions, but public visitors cannot read the subscriber list. Keep the Supabase secret key in n8n only.
+
+To send an alert when an article is first published, extend the existing n8n publishing workflow after the article's Supabase upsert:
+
+1. Before the upsert, add an HTTP Request node that looks up the incoming `source_url` in `articles` using the Supabase secret key. Use `GET https://<project-ref>.supabase.co/rest/v1/articles?source_url=eq.{{$json.sourceUrl}}&select=source_url&limit=1` with the secret key in the `apikey` header.
+2. Branch on the lookup result. If a row already exists, keep the current upsert path and skip email. If no row exists, publish the article, then continue to the subscriber lookup. This prevents duplicate RSS events from sending duplicate alerts.
+3. Add an HTTP Request node to fetch subscribers: `GET https://<project-ref>.supabase.co/rest/v1/newsletter_subscribers?select=email&order=subscribed_at.asc`. Use the Supabase secret key in the `apikey` header. Do not expose this request or key in the browser.
+4. Split the returned rows into individual items, then connect your configured SMTP or email-provider node. Send one message per `email`, with the article title, summary, and a link to the Cyclops News website (or its original source URL). Configure the sender address and credentials in n8n.
+
+The signup is available on the live site once the SQL has run. Email delivery starts after the n8n lookup and email nodes are configured with a working provider.
+
 If the site shows preview stories, verify that both values in `supabase-config.js` are filled in, the schema SQL ran successfully, and the deployed table is named `articles`. If a browser fetch fails, check the browser console and Supabase RLS/table grants.
 
 
 ## Project files
 
 - [`README.md`](./README.md) — project overview and live preview.
-- [`supabase-schema.sql`](./supabase-schema.sql) — Supabase table and read policy.
+- [`supabase-schema.sql`](./supabase-schema.sql) — Supabase article and newsletter tables with Row Level Security policies.
 - [`supabase-config.js`](./supabase-config.js) — public website configuration; contains only the project URL and publishable key.

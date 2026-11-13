@@ -2,7 +2,7 @@
 
 Cyclops News is an AI-assisted technology news desk built with **n8n**. It gathers stories from RSS feeds, scores them for relevance, turns selected items into readable article drafts, and publishes them to a live news site with links to the original sources.
 
-The project combines a lightweight, responsive frontend with an n8n automation workflow and Supabase-backed publishing. Readers can browse AI, development, security, hardware, science, and robotics coverage, filter and search the feed, and open individual stories.
+The project combines a lightweight, responsive frontend with an n8n automation workflow and Supabase-backed publishing. Readers can browse AI, development, security, hardware, science, and robotics coverage, filter and search the feed, open individual stories, and subscribe by email for new story alerts.
 
 ## Live website
 
