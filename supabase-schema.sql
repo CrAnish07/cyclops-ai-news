@@ -10,6 +10,9 @@ create table if not exists public.articles (
   created_at timestamptz not null default now()
 );
 
+alter table public.articles add column if not exists image_url text;
+alter table public.articles add column if not exists image_credit text not null default '';
+
 alter table public.articles enable row level security;
 grant select on public.articles to anon, authenticated;
 

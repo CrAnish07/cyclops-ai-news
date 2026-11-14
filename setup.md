@@ -55,6 +55,7 @@ if (!articleText.trim()) throw new Error('The article writer returned empty text
 
 let source = 'News desk';
 try { source = new URL(rss.link).hostname.replace(/^www\./, ''); } catch {}
+const imageUrl = rss.image?.url || rss.image || rss.enclosure?.url || rss['media:content']?.url || '';
 
 return [{ json: {
   title: rss.title,
@@ -64,11 +65,13 @@ return [{ json: {
   publishedAt: rss.isoDate || rss.pubDate || new Date().toISOString(),
   source,
   sourceUrl: rss.link,
+  imageUrl,
+  imageCredit: imageUrl ? `Image via ${source}` : '',
   score,
 } }];
 ```
 
-In HTTP Request, select **Body Content Type: JSON** and **Specify Body: Using Fields Below**. Add each property from the Code node output as a body field (title, summary, article, category, publishedAt, source, sourceUrl, and score). This avoids JSON-expression parsing issues in n8n. A successful response returns `{ "ok": true, "updated": false, "count": 1 }`. Repeated source URLs update the existing item instead of adding duplicates. The site will display it on the next poll.
+In HTTP Request, select **Body Content Type: JSON** and **Specify Body: Using Fields Below**. Add each property from the Code node output as a body field (title, summary, article, category, publishedAt, source, sourceUrl, imageUrl, imageCredit, and score). This avoids JSON-expression parsing issues in n8n. RSS image fields differ by feed; confirm which image property your trigger outputs. Stories without a usable HTTPS image keep the category artwork. A successful response returns `{ "ok": true, "updated": false, "count": 1 }`. Repeated source URLs update the existing item instead of adding duplicates. The site will display it on the next poll.
 
 The scoring model currently returns JSON as text. Turn on **Require Specific Output Format** for the scoring chain if your model supports it, or keep the parsing and score check in the Code node. The writer prompt asks for 250–500 words, but the workflow should still treat generated text as a draft and preserve the original source link.
 
@@ -89,6 +92,8 @@ The endpoint accepts one object with these fields:
   "publishedAt": "2026-11-09T12:00:00.000Z",
   "source": "Publisher name",
   "sourceUrl": "https://example.com/story",
+  "imageUrl": "https://example.com/story-image.jpg",
+  "imageCredit": "Image via Publisher name",
   "score": 8
 }
 ```
@@ -119,6 +124,8 @@ The static Render site can read live stories from Supabase while n8n writes them
      - `published_at` → `{{$json.publishedAt}}`
      - `source` → `{{$json.source}}`
      - `source_url` → `{{$json.sourceUrl}}`
+     - `image_url` → `{{$json.imageUrl}}`
+     - `image_credit` → `{{$json.imageCredit}}`
      - `score` → `{{$json.score}}`
 
    Keep the secret key in n8n credentials or another secret store, not in this repository or website.
@@ -134,7 +141,7 @@ To send an alert when an article is first published, extend the existing n8n pub
 1. Before the upsert, add an HTTP Request node that looks up the incoming `source_url` in `articles` using the Supabase secret key. Use `GET https://<project-ref>.supabase.co/rest/v1/articles?source_url=eq.{{$json.sourceUrl}}&select=source_url&limit=1` with the secret key in the `apikey` header.
 2. Branch on the lookup result. If a row already exists, keep the current upsert path and skip email. If no row exists, publish the article, then continue to the subscriber lookup. This prevents duplicate RSS events from sending duplicate alerts.
 3. Add an HTTP Request node to fetch subscribers: `GET https://<project-ref>.supabase.co/rest/v1/newsletter_subscribers?select=email&order=subscribed_at.asc`. Use the Supabase secret key in the `apikey` header. Do not expose this request or key in the browser.
-4. Split the returned rows into individual items, then connect your configured SMTP or email-provider node. Send one message per `email`, with the article title, summary, and a link to the Cyclops News website (or its original source URL). Configure the sender address and credentials in n8n.
+4. Split the returned rows into individual items, then connect your configured SMTP or email-provider node. Send one message per `email`, with the article title, summary, a link to the Cyclops News website (or its original source URL), and the image when `image_url` is present. Use an absolute HTTPS image URL in an HTML `<img>` and keep the headline and link readable when the email client blocks images. Include the image credit in the message. Configure the sender address and credentials in n8n.
 
 The signup is available on the live site once the SQL has run. Email delivery starts after the n8n lookup and email nodes are configured with a working provider.
 
